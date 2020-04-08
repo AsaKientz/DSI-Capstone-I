@@ -2,18 +2,98 @@
 # Asa Kientz
 # 10 Apr 2020
 
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 from string import punctuation
 from sklearn.feature_extraction import stop_words
 stopwords = stop_words.ENGLISH_STOP_WORDS
-import argparse
+from pipeline_text import *
+import matplotlib.patches as mpatches
 
-import text_parsing_functions as tpf
+plt.rcParams.update({'font.size': 20})
+
+
+def count_entries_by_type(dataframe):
+    type_count = dataframe.groupby('type').count().sort_values(by='posts', ascending=False).reset_index()
+    return type_count
+
+def type_frequency_barchart(type_count, ei_color=False):
+    hist_data = list(type_count['posts'])
+    hist_label = list(type_count['type'])
+    ei_colors = ['red', 'blue']
+    ei_legend = ['Introvert', 'Extrovert']
+    red_patch = mpatches.Patch(color='red', label='Introvert')
+    blue_patch = mpatches.Patch(color='blue', label='Extrovert')
+
+
+    color_by_ei = [ei_colors[hist_label[i][:1]=="E"] for i in range(len(hist_label))]
+    y = np.arange(len(hist_data))
+
+    width = 0.8
+    fig, ax = plt.subplots(figsize = (10,6))
+    if ei_color:
+        ax.barh(y, hist_data, width, color = color_by_ei, align = 'center')
+        plt.legend(handles=[red_patch, blue_patch], fontsize=14)
+        # ax.legend(handles = ei_legend)
+        save_name = "images/post_count_by_type_ei.png"
+    else:
+        ax.barh(y, hist_data, width, color = ['wheat'], align = 'center')
+        save_name = "images/post_count_by_type.png"
+    
+    ax.set_yticks(y)
+    ax.set_yticklabels(hist_label, size=14)
+    ax.xaxis.grid(True)
+    ax.set_ylabel('MBTI Type', size=18, labelpad=6)
+    ax.set_xlabel('Users on Website', size=18, labelpad=18)
+    fig.tight_layout(pad=0)
+    plt.subplots_adjust(left=0.11, right=0.96, top=0.98)
+    plt.show()
+    fig.savefig(save_name)
+    
+    
+    
+#     
+#   Functions below need to be sorted
+# 
+# 
+
+
+def remove_newline(text):
+    return text.replace('\n', '')
+
+def replace_names(word_lst, name_set, replacement_val):
+    word_lst_with_replacement = [] 
+    for word in word_lst:
+        if word in name_set:
+            val = replacement_val
+        else:
+            val = word
+        word_lst_with_replacement.append(val)
+    return word_lst_with_replacement
+
+def create_cleaned_textline_from_words(words):
+    text = ' '.join([word for word in words])
+    return text
+
+def line_cleaning_pipeline(text, stopwords_set, name_set, replace_val):
+    text_lc = lowercase_text(text)
+    text_np = remove_punctuation(text_lc)
+    text_nnl = remove_newline(text_np)
+    words = split_text_into_words(text_nnl)
+    words_nsw = remove_stopwords(words, stopwords_set)
+    words_cleaned = replace_names(words_nsw, name_set, replace_val) 
+    line_of_text_cleaned = create_cleaned_textline_from_words(words_cleaned)
+    return line_of_text_cleaned
+
+
+
 
 def read_lines_in_file(filepath, sw, nm, rep):
     lines_cleaned = [] 
     with open(filepath) as fp: 
         for line in fp:
-            line_cleaned = tpf.line_cleaning_pipeline(line, sw, nm, rep)
+            line_cleaned = pt.line_cleaning_pipeline(line, sw, nm, rep)
             lines_cleaned.append(line_cleaned)
     return lines_cleaned
 
@@ -24,6 +104,40 @@ def write_lst_to_file(lst, filepath):
 def open_raw_data(file_name):
     pass
 
+def plot_post_count_by_length_by_type(df):
+    # To define a standard layout of the 4x4 plot per Myers-Briggs convention
+    types = {'ISTJ': (0,0),'ISFJ': (0,1),'INFJ': (0,2),'INTJ': (0,3),
+         'ISTP': (1,0),'ISFP': (1,1),'INFP': (1,2),'INTP': (1,3),
+         'ESTP': (2,0),'ESFP': (2,1),'ENFP': (2,2),'ENTP': (2,3),
+         'ESTJ': (3,0),'ESFJ': (3,1),'ENFJ': (3,2),'ENTJ': (3,3)
+        }
+    
+    fig, axs = plt.subplots(4, 4, figsize=(16, 12), sharex=True, sharey=True)
+
+    for i in range(len(list(types.keys()))):
+        ax = axs[types[list(types.keys())[i]]]
+        ax.grid(True, color='black', alpha=0.5, linestyle='dashed')
+        ax.hist(df.loc[list(types.keys())[i],:], bins=20, alpha = 0.75)
+        ax.set_xlabel('Length of post (chars)', fontsize=18, labelpad=18)
+        ax.set_ylabel('Counts (log)', fontsize=18, labelpad=18)
+        ax.set_axisbelow(True)
+        ax.text(100, 10000, list(types.keys())[i], fontsize = 18, fontweight='bold', color = 'red',
+            bbox={'facecolor': 'white', 'edgecolor': 'white', 'alpha': 0.75, 'pad': 10})
+        xvalues = np.arange(0, 251, 50)
+        plt.xticks(xvalues)
+        ax.set_xticklabels(xvalues, fontsize=16)
+        yvalues = np.arange(0, 40001, 10000)
+        plt.yticks(yvalues)
+        ax.set_yticklabels(yvalues, fontsize=16)
+        ax.label_outer()
+
+    plt.yscale("log")
+    fig.suptitle('Count of Posts by Post Length for MBTI Types', fontsize=22, fontweight='bold', y = 0.98)
+    fig.tight_layout(pad = 2)
+    plt.subplots_adjust(top=0.94)
+    plt.show()
+    fig.savefig("images/post_length_hist_by_type.png")
+
 class MBType(object):
     '''
     
@@ -31,25 +145,45 @@ class MBType(object):
 
 
 
-if _name__ == "_main__":
-    replace = 'person'
-    names = set(['suan', 'seongkyeong', 'yonsuk', 'seokwoo', 'ingil', 'yonghuk'
-                 'jinhee'])
-    line_text = "pregnant wife Seong-kyeong, a high school baseball team, rich-yet-egotistical" 
-    cleaned_text = tpf.line_cleaning_pipeline(line_text, stopwords, names, replace)
-    #print(cleaned_text)
 
-    # Argument parsing
-    parser = argparse.ArgumentParser() 
-    parser.add_argument("--input", "-i", type=str, required=True)
-    parser.add_argument("--output", "-o", type=str, required=True)
-    args = parser.parse_args()
+
+
+if __name__ == "__main__":
     
-    #  read in file
-    filepath_in = args.input
-    lines_cleaned = read_lines_in_file(filepath_in, stopwords, names, replace)
+    df_raw = pd.read_csv('data/mbti_1.csv')
+    
+    # 1 Count and plot Frequency of entries by type
+    type_count = count_entries_by_type(df_raw)
+    type_frequency_barchart(type_count, True)
+    
+    # # 2 Counts of Posts by Post Length for Types
+    # df_raw_no_quote = remove_first_last_quote(df_raw, 'posts')
+    # df_split_posts = split_df_col_text_by_delim(df_raw_no_quote, 'posts', delim='\|\|\|')
+    # df_post_lengths = create_post_length_list(df_split_posts, 'posts', 'posts_char_count')
+    # df_length_lists_by_type = group_post_length_lists_by_type(df_post_lengths, 'type', 'posts_char_count')
+    # plot_post_count_by_length_by_type(df_length_lists_by_type)
+    
 
-    # write the file
-    filepath_out = args.output
-    write_lst_to_file(lines_cleaned, filepath_out)
+    
+        
+    # replace = 'person'
+    # names = set(['suan', 'seongkyeong', 'yonsuk', 'seokwoo', 'ingil', 'yonghuk'
+    #              'jinhee'])
+    # line_text = "pregnant wife Seong-kyeong, a high school baseball team, rich-yet-egotistical" 
+    # cleaned_text = tpf.line_cleaning_pipeline(line_text, stopwords, names, replace)
+    # #print(cleaned_text)
+
+    # # Argument parsing
+    # parser = argparse.ArgumentParser() 
+    # parser.add_argument("--input", "-i", type=str, required=True)
+    # parser.add_argument("--output", "-o", type=str, required=True)
+    # args = parser.parse_args()
+    
+    # #  read in file
+    # filepath_in = args.input
+    # lines_cleaned = read_lines_in_file(filepath_in, stopwords, names, replace)
+
+    # # write the file
+    # filepath_out = args.output
+    # write_lst_to_file(lines_cleaned, filepath_out)
     
