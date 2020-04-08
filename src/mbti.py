@@ -1,7 +1,3 @@
-# DSI Capstone I project
-# Asa Kientz
-# 10 Apr 2020
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -14,11 +10,11 @@ import matplotlib.patches as mpatches
 plt.rcParams.update({'font.size': 20})
 
 
-def count_entries_by_type(dataframe):
-    type_count = dataframe.groupby('type').count().sort_values(by='posts', ascending=False).reset_index()
+def df_count_entries_by_type(dataframe):
+    type_count = dataframe.groupby('type').count().sort_values(by='posts', ascending=True).reset_index()
     return type_count
 
-def type_frequency_barchart(type_count, ei_color=False):
+def plot_barchart_type_frequency(type_count, ei_color=False):
     hist_data = list(type_count['posts'])
     hist_label = list(type_count['type'])
     ei_colors = ['red', 'blue']
@@ -51,58 +47,8 @@ def type_frequency_barchart(type_count, ei_color=False):
     plt.show()
     fig.savefig(save_name)
     
-    
-    
-#     
-#   Functions below need to be sorted
-# 
-# 
-
-
 def remove_newline(text):
     return text.replace('\n', '')
-
-def replace_names(word_lst, name_set, replacement_val):
-    word_lst_with_replacement = [] 
-    for word in word_lst:
-        if word in name_set:
-            val = replacement_val
-        else:
-            val = word
-        word_lst_with_replacement.append(val)
-    return word_lst_with_replacement
-
-def create_cleaned_textline_from_words(words):
-    text = ' '.join([word for word in words])
-    return text
-
-def line_cleaning_pipeline(text, stopwords_set, name_set, replace_val):
-    text_lc = lowercase_text(text)
-    text_np = remove_punctuation(text_lc)
-    text_nnl = remove_newline(text_np)
-    words = split_text_into_words(text_nnl)
-    words_nsw = remove_stopwords(words, stopwords_set)
-    words_cleaned = replace_names(words_nsw, name_set, replace_val) 
-    line_of_text_cleaned = create_cleaned_textline_from_words(words_cleaned)
-    return line_of_text_cleaned
-
-
-
-
-def read_lines_in_file(filepath, sw, nm, rep):
-    lines_cleaned = [] 
-    with open(filepath) as fp: 
-        for line in fp:
-            line_cleaned = pt.line_cleaning_pipeline(line, sw, nm, rep)
-            lines_cleaned.append(line_cleaned)
-    return lines_cleaned
-
-def write_lst_to_file(lst, filepath):
-    with open(filepath, mode='w', encoding='utf-8') as fp:
-        fp.write('\n'.join(lst))
-
-def open_raw_data(file_name):
-    pass
 
 def plot_post_count_by_length_by_type(df):
     # To define a standard layout of the 4x4 plot per Myers-Briggs convention
@@ -138,23 +84,55 @@ def plot_post_count_by_length_by_type(df):
     plt.show()
     fig.savefig("images/post_length_hist_by_type.png")
 
+def replace_names(word_lst, name_set, replacement_val):
+    word_lst_with_replacement = [] 
+    for word in word_lst:
+        if word in name_set:
+            val = replacement_val
+        else:
+            val = word
+        word_lst_with_replacement.append(val)
+    return word_lst_with_replacement
+
+def create_cleaned_textline_from_words(words):
+    text = ' '.join([word for word in words])
+    return text
+
+def line_cleaning_pipeline(text, stopwords_set, name_set, replace_val):
+    text_lc = lowercase_text(text)
+    text_np = remove_punctuation(text_lc)
+    text_nnl = remove_newline(text_np)
+    words = split_text_into_words(text_nnl)
+    words_nsw = remove_stopwords(words, stopwords_set)
+    words_cleaned = replace_names(words_nsw, name_set, replace_val) 
+    line_of_text_cleaned = create_cleaned_textline_from_words(words_cleaned)
+    return line_of_text_cleaned
+
+def read_lines_in_file(filepath, sw, nm, rep):
+    lines_cleaned = [] 
+    with open(filepath) as fp: 
+        for line in fp:
+            line_cleaned = pt.line_cleaning_pipeline(line, sw, nm, rep)
+            lines_cleaned.append(line_cleaned)
+    return lines_cleaned
+
+def write_lst_to_file(lst, filepath):
+    with open(filepath, mode='w', encoding='utf-8') as fp:
+        fp.write('\n'.join(lst))
+
 class MBType(object):
     '''
     
     '''
 
-
-
-
-
-
 if __name__ == "__main__":
     
-    df_raw = pd.read_csv('data/mbti_1.csv')
+    raw_data_file = 'data/mbti_1.csv'
+    df_raw = pd.read_csv(raw_data_file)
     
     # 1 Count and plot Frequency of entries by type
-    type_count = count_entries_by_type(df_raw)
-    type_frequency_barchart(type_count, True)
+    df_type_count = df_count_entries_by_type(df_raw)
+    plot_barchart_type_frequency(df_type_count, False)
     
     # # 2 Counts of Posts by Post Length for Types
     # df_raw_no_quote = remove_first_last_quote(df_raw, 'posts')
@@ -165,25 +143,10 @@ if __name__ == "__main__":
     
 
     
-        
-    # replace = 'person'
-    # names = set(['suan', 'seongkyeong', 'yonsuk', 'seokwoo', 'ingil', 'yonghuk'
-    #              'jinhee'])
-    # line_text = "pregnant wife Seong-kyeong, a high school baseball team, rich-yet-egotistical" 
-    # cleaned_text = tpf.line_cleaning_pipeline(line_text, stopwords, names, replace)
-    # #print(cleaned_text)
-
+   
     # # Argument parsing
     # parser = argparse.ArgumentParser() 
     # parser.add_argument("--input", "-i", type=str, required=True)
     # parser.add_argument("--output", "-o", type=str, required=True)
     # args = parser.parse_args()
-    
-    # #  read in file
-    # filepath_in = args.input
-    # lines_cleaned = read_lines_in_file(filepath_in, stopwords, names, replace)
-
-    # # write the file
-    # filepath_out = args.output
-    # write_lst_to_file(lines_cleaned, filepath_out)
-    
+  
