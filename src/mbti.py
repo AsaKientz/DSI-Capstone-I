@@ -19,8 +19,8 @@ def plot_barchart_type_frequency(type_count, ei_color=False):
     hist_label = list(type_count['type'])
     ei_colors = ['red', 'blue']
     ei_legend = ['Introvert', 'Extrovert']
-    red_patch = mpatches.Patch(color='red', label='Introvert')
-    blue_patch = mpatches.Patch(color='blue', label='Extrovert')
+    red_patch = mpatches.Patch(color=ei_colors[0], label=ei_legend[0])
+    blue_patch = mpatches.Patch(color=ei_colors[1], label=ei_legend[1])
 
 
     color_by_ei = [ei_colors[hist_label[i][:1]=="E"] for i in range(len(hist_label))]
@@ -47,9 +47,6 @@ def plot_barchart_type_frequency(type_count, ei_color=False):
     plt.show()
     fig.savefig(save_name)
     
-def remove_newline(text):
-    return text.replace('\n', '')
-
 def plot_post_count_by_length_by_type(df):
     # To define a standard layout of the 4x4 plot per Myers-Briggs convention
     types = {'ISTJ': (0,0),'ISFJ': (0,1),'INFJ': (0,2),'INTJ': (0,3),
@@ -94,6 +91,9 @@ def replace_names(word_lst, name_set, replacement_val):
         word_lst_with_replacement.append(val)
     return word_lst_with_replacement
 
+def remove_newline(text):
+    return text.replace('\n', '')
+
 def create_cleaned_textline_from_words(words):
     text = ' '.join([word for word in words])
     return text
@@ -128,25 +128,16 @@ class MBType(object):
 if __name__ == "__main__":
     
     raw_data_file = 'data/mbti_1.csv'
-    df_raw = pd.read_csv(raw_data_file)
     
     # 1 Count and plot Frequency of entries by type
     df_type_count = df_count_entries_by_type(df_raw)
     plot_barchart_type_frequency(df_type_count, False)
     
-    # # 2 Counts of Posts by Post Length for Types
-    # df_raw_no_quote = remove_first_last_quote(df_raw, 'posts')
-    # df_split_posts = split_df_col_text_by_delim(df_raw_no_quote, 'posts', delim='\|\|\|')
-    # df_post_lengths = create_post_length_list(df_split_posts, 'posts', 'posts_char_count')
-    # df_length_lists_by_type = group_post_length_lists_by_type(df_post_lengths, 'type', 'posts_char_count')
-    # plot_post_count_by_length_by_type(df_length_lists_by_type)
-    
-
-    
-   
-    # # Argument parsing
-    # parser = argparse.ArgumentParser() 
-    # parser.add_argument("--input", "-i", type=str, required=True)
-    # parser.add_argument("--output", "-o", type=str, required=True)
-    # args = parser.parse_args()
+    # 2 Counts of Posts by Post Length for Types
+    df_raw_no_quote = remove_first_last_quote(df_raw, 'posts')
+    df_split_posts = split_df_col_text_by_delim(df_raw_no_quote, 'posts', delim='\|\|\|')
+    df_post_lengths = create_post_length_list(df_split_posts, 'posts', 'posts_char_count')
+    df_length_lists_by_type = group_post_length_lists_by_type(df_post_lengths, 'type', 'posts_char_count')
+    plot_post_count_by_length_by_type(df_length_lists_by_type)
+  
   
