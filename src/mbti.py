@@ -1,9 +1,6 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from string import punctuation
-from sklearn.feature_extraction import stop_words
-stopwords = stop_words.ENGLISH_STOP_WORDS
 from pipeline_text import *
 import matplotlib.patches as mpatches
 
@@ -98,36 +95,10 @@ def create_cleaned_textline_from_words(words):
     text = ' '.join([word for word in words])
     return text
 
-def line_cleaning_pipeline(text, stopwords_set, name_set, replace_val):
-    text_lc = lowercase_text(text)
-    text_np = remove_punctuation(text_lc)
-    text_nnl = remove_newline(text_np)
-    words = split_text_into_words(text_nnl)
-    words_nsw = remove_stopwords(words, stopwords_set)
-    words_cleaned = replace_names(words_nsw, name_set, replace_val) 
-    line_of_text_cleaned = create_cleaned_textline_from_words(words_cleaned)
-    return line_of_text_cleaned
-
-def read_lines_in_file(filepath, sw, nm, rep):
-    lines_cleaned = [] 
-    with open(filepath) as fp: 
-        for line in fp:
-            line_cleaned = pt.line_cleaning_pipeline(line, sw, nm, rep)
-            lines_cleaned.append(line_cleaned)
-    return lines_cleaned
-
-def write_lst_to_file(lst, filepath):
-    with open(filepath, mode='w', encoding='utf-8') as fp:
-        fp.write('\n'.join(lst))
-
-class MBType(object):
-    '''
-    
-    '''
 
 if __name__ == "__main__":
     
-    raw_data_file = 'data/mbti_1.csv'
+    df_raw = pd.read_csv('data/mbti_1.csv')
     
     # 1 Count and plot Frequency of entries by type
     df_type_count = df_count_entries_by_type(df_raw)

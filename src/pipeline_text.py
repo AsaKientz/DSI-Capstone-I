@@ -1,16 +1,15 @@
 from string import punctuation
 from sklearn.feature_extraction import stop_words
 stopwords = stop_words.ENGLISH_STOP_WORDS
-# import argparse
 
-custom_stopwords = {"like", "just", "people", "don","really","ve","http","com", "make", "good", "things", 
-                    "https", "say", "way", "going", "lot", "thing", "best", "www", "youtube", "ll", "pretty",
-                   "sure", "yes", "no", "actually", "right", "said", "thanks", "person", "watch", "did",
-                    "said", "does", "maybe", "probably", "type", "types", "doesn", "work", "life", "want", "need",
-                   "didn", "mean", "yeah", "usually", "got", "look", "use", "day", "long","years", "year",
-                   "think", "know", "feel", "love", "friend", "friends", "thinking", "thought", "thread", "post"}
+custom_stopwords = set("like just people don really ve http com make good things https say way going \
+                        lot thing best www youtube ll pretty sure yes no actually right said thanks person \
+                        watch did said does maybe probably type types doesn work life want need didn mean \
+                        yeah usually got look use day long years year think know feel love friend friends \
+                        thinking thought thread post personality mbti try entjs intjs enfps enfjs oh entps \
+                        esfjs estjs dont espts im let time infjs infps quite makes little intps isfjs istps \
+                        jpg".split())
 
-stopwords_set = stopwords | custom_stopwords
 
 def remove_first_last_quote(dataframe, col):
     dataframe[col] = dataframe[col].str[1:-1]
@@ -47,25 +46,11 @@ def to_lowercase(df, col):
 def remove_punctuation(text, punctuation = punctuation):
     return ''.join([char for char in text if char not in punctuation])
 
-
-
 def splt_text_by_delim(text, delim = " "):
     return text.split(delim)
 
 def remove_stopword_custom(word_list, common_stopwords, custom_stopwords = []):
     stopword_set = common_stopwords + custom_stopwords
     return [word for word in word_list if word not in stopword_set]
-
-def url_replacement(word_list, url_replace_val):
-    pass
-    
-def create_cleaned():
-    pass
-
-def post_string_cleaning_pipeline(text, delim, common_stopwords, custom_stopwords, ):
-    pass
-    # text_lc = to_lowercase(text)  # all lowercase
-    # posts_lc = 1 # split into string into individual posts
-    # return None
 
     

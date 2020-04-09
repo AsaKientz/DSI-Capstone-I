@@ -23,6 +23,9 @@ https://personalityjunkie.com/infj-infp-intj-intp-modern-life/
 ## 4 x 4 plot
 Not normalized by user count
 
+![alt text](/images/post_length_hist_by_type.png)
+
+
 ---
 ## Bag of words / SKLearn
 
