@@ -17,6 +17,14 @@ Link for more information about [Myers-Briggs](https://www.myersbriggs.org/my-mb
 ## Data Source Description
 I used a Kaggle dataset of discussion forum posts at an MBTI-centered site. Two columns are present - the self-reported MBTI type of a user (one user per row) and a set of 50 posts for that user, listed as a single string, separated by a triple pipe ‘|||’.
 
+![alt text](/images/df_raw_head.png)
+
+Above: First 20 rows of the raw data.
+
+Below: Partial view of one user's 50-post concatenated test string.
+
+![alt text](/images/df_raw_posts3.png)
+
 I was interested to understand how aspects of personality could be detected from posting activity, and what trends within posts may exist that align with the reported personality types.
 
 ---
