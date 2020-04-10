@@ -15,7 +15,7 @@ Link for more information about [Myers-Briggs](https://www.myersbriggs.org/my-mb
 
 ---
 ## Data Source Description
-I used a Kaggle dataset of discussion forum posts at an MBTI-centered site. Two columns are present - the self-reported MBTI type of a user (one user per row) and a set of 50 posts for that user, listed as a single string, separated by a triple pipe ‘|||’.
+I used a [Kaggle dataset](https://www.kaggle.com/datasnaek/mbti-type/data#) of discussion forum posts at an MBTI-centered site. Two columns are present - the self-reported MBTI type of a user (one user per row) and a set of 50 posts for that user, listed as a single string, separated by a triple pipe ‘|||’.
 
 ![alt text](/images/df_raw_head.png)
 
