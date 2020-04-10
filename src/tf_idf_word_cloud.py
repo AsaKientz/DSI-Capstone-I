@@ -9,6 +9,14 @@ from sklearn.feature_extraction.text import CountVectorizer
 from wordcloud import WordCloud
 from pipeline_text import *
 
+custom_stopwords = set("like just people don really ve http com make good things https say way going \
+                        lot thing best www youtube ll pretty sure yes no actually right said thanks person \
+                        watch did said does maybe probably type types doesn work life want need didn mean \
+                        yeah usually got look use day long years year think know feel love friend friends \
+                        thinking thought thread post personality mbti try entjs intjs enfps enfjs oh entps \
+                        esfjs estjs dont espts im let time infjs infps quite makes little intps isfjs istps \
+                        jpg guy guys".split())
+
 stopwords_set = stopwords | custom_stopwords
 
 def convert_series_to_list(df, col):
@@ -47,9 +55,10 @@ def create_word_cloud_string(df, col, word_cloud_size = 200, score_scale = 1000)
         word_cloud_string += ((df['index'][word] + " ") * num_occ)
     return word_cloud_string
         
-def create_word_cloud(word_cloud_string, current_type):
+def create_word_cloud(word_cloud_string, stopwords, current_type):
     wordcloud = WordCloud(width = 800, height = 800, 
                 background_color ='white',
+                stopwords = stopwords,
                 collocations=False,
                 min_font_size = 10).generate(word_cloud_string) 
                     
@@ -79,7 +88,7 @@ def word_cloud_generator(df_raw, current_type):
     ranked_word_list = create_ranked_word_list(cv, tf_idf_vector, type_list.index(current_type), f"tfidf-{current_type}")
     # Word Cloud image creator
     word_cloud_string = create_word_cloud_string(ranked_word_list, f"tfidf-{current_type}", word_cloud_size = 200, score_scale = 1000)
-    create_word_cloud(word_cloud_string, current_type)
+    create_word_cloud(word_cloud_string, stopwords_set, current_type)
 
 
 if __name__ == "__main__":

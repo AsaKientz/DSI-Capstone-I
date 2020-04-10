@@ -2,13 +2,7 @@ from string import punctuation
 from sklearn.feature_extraction import stop_words
 stopwords = stop_words.ENGLISH_STOP_WORDS
 
-custom_stopwords = set("like just people don really ve http com make good things https say way going \
-                        lot thing best www youtube ll pretty sure yes no actually right said thanks person \
-                        watch did said does maybe probably type types doesn work life want need didn mean \
-                        yeah usually got look use day long years year think know feel love friend friends \
-                        thinking thought thread post personality mbti try entjs intjs enfps enfjs oh entps \
-                        esfjs estjs dont espts im let time infjs infps quite makes little intps isfjs istps \
-                        jpg guy".split())
+
 
 
 def remove_first_last_quote(dataframe, col):
