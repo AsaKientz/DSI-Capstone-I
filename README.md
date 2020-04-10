@@ -15,7 +15,7 @@ Link for more information about [Myers-Briggs](https://www.myersbriggs.org/my-mb
 
 ---
 ## Data Source Description
-I used a Kaggle dataset of discussion forum posts at an MBTI-centered site. Two columns are present - the self-reported MBTI type of a user (one user per row) and a set of 50 posts for that user, listed as a single string, separated by a triple pipe ‘|||’.
+I used a [Kaggle dataset](https://www.kaggle.com/datasnaek/mbti-type/data#) of discussion forum posts at an MBTI-centered site. It contains posts from over 8000 users. Two columns are present - the self-reported MBTI type of a user (one user per row) and a set of 50 posts for that user, listed as a single string, separated by a triple pipe ‘|||’.
 
 ![alt text](/images/df_raw_head.png)
 
@@ -35,7 +35,7 @@ both (I) and (N) types.  The set of 4 INxx types made up 66% of the user base.
 
 ![alt text](/images/post_count_by_type_ei.png)
 
-One theory for the heavy skew in INxx participation could be that these types tend to explore information and patterns deeply, so a site where they can discuss their thoughts and understand personality differences.
+One theory for the heavy skew in INxx participation could be that these types tend to explore information and patterns deeply, so a site where they can discuss their thoughts and understand personality differences would be very attractive.
 
 Though it seems clear the user frequency distribution is not uniform, a Chi-squared test can confirm this.  With a Null Hypothesis that each of the 16 user types would be uniformly represented in user counts, the Chi-squared p-value of 0.0 allows the Null Hypothesis to be formally rejected.
 
@@ -55,7 +55,7 @@ Two features stand out with these distributions:
 
 
 ---
-## SKLearn - Term Frequency and Inverse Document Frequency (tf-idf)
+## Sklearn - Term Frequency and Inverse Document Frequency (tf-idf)
 For a set of documents in a corpus, the tf-idf process finds words in a given document that are less frequent across the other documents (idf) but that are also relatively common in that document (tf).  The product of these two metrics produces a tf-idf score.
 
 ### Data Prep and Cleaning
@@ -66,7 +66,7 @@ The 8675 rows of data required pre-processing.  For each user, all 50 posts were
 This created 16 documents; one for each MBTI Type.
 
 ### **CountVectorizer and TFidfTransformer**
-  SKLearn has a "TfidfVecorizer" module that allows computation of tf-idf scores in a single pass.  I chose to use the more split approach - CountVectorizer and TfidfTransformer.  This allowed me to view the top 'n' tf-idf words and their scores across each type and become familiar with both the tool and the validity of the data.
+  Sklearn has a "TfidfVecorizer" module that allows computation of tf-idf scores in a single pass.  I chose to use the more split approach - CountVectorizer and TfidfTransformer.  This allowed me to view the top 'n' tf-idf words and their scores across each type and become familiar with both the tool and the validity of the data.
   
   Here are idf values from early in the process:
 
@@ -107,7 +107,7 @@ This created 16 documents; one for each MBTI Type.
 ## Summary
 - A forum to discuss personality types seems to attract specifc personality types more than others - INxx vs ESxx.
 - For posts less than 180 characters long, approximately 50 characters was most common for all types.
-- SKLearn is a powerful and easily to user tool for document word analysis.
+- sklearn is a powerful and easy-to-use tool for document word analysis.
 - Some differences can be seen between personality types when viewed as word clouds, but additional text processing would likely yield more clear distinctions.
 
 ---
