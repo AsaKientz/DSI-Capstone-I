@@ -55,7 +55,7 @@ Two features stand out with these distributions:
 
 
 ---
-## SKLearn - Term Frequency and Inverse Document Frequency (tf-idf)
+## Sklearn - Term Frequency and Inverse Document Frequency (tf-idf)
 For a set of documents in a corpus, the tf-idf process finds words in a given document that are less frequent across the other documents (idf) but that are also relatively common in that document (tf).  The product of these two metrics produces a tf-idf score.
 
 ### Data Prep and Cleaning
@@ -66,7 +66,7 @@ The 8675 rows of data required pre-processing.  For each user, all 50 posts were
 This created 16 documents; one for each MBTI Type.
 
 ### **CountVectorizer and TFidfTransformer**
-  SKLearn has a "TfidfVecorizer" module that allows computation of tf-idf scores in a single pass.  I chose to use the more split approach - CountVectorizer and TfidfTransformer.  This allowed me to view the top 'n' tf-idf words and their scores across each type and become familiar with both the tool and the validity of the data.
+  Sklearn has a "TfidfVecorizer" module that allows computation of tf-idf scores in a single pass.  I chose to use the more split approach - CountVectorizer and TfidfTransformer.  This allowed me to view the top 'n' tf-idf words and their scores across each type and become familiar with both the tool and the validity of the data.
   
   Here are idf values from early in the process:
 
@@ -107,7 +107,7 @@ This created 16 documents; one for each MBTI Type.
 ## Summary
 - A forum to discuss personality types seems to attract specifc personality types more than others - INxx vs ESxx.
 - For posts less than 180 characters long, approximately 50 characters was most common for all types.
-- SKLearn is a powerful and easy-to-use tool for document word analysis.
+- sklearn is a powerful and easy-to-use tool for document word analysis.
 - Some differences can be seen between personality types when viewed as word clouds, but additional text processing would likely yield more clear distinctions.
 
 ---
