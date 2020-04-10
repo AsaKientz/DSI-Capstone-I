@@ -52,7 +52,7 @@ def plot_post_count_by_length_by_type(df):
          'ESTJ': (3,0),'ESFJ': (3,1),'ENFJ': (3,2),'ENTJ': (3,3)
         }
     
-    fig, axs = plt.subplots(4, 4, figsize=(16, 12), sharex=True, sharey=True)
+    fig, axs = plt.subplots(4, 4, figsize=(16, 16), sharex=True, sharey=True)
 
     for i in range(len(list(types.keys()))):
         ax = axs[types[list(types.keys())[i]]]
@@ -66,9 +66,9 @@ def plot_post_count_by_length_by_type(df):
         xvalues = np.arange(0, 251, 50)
         plt.xticks(xvalues)
         ax.set_xticklabels(xvalues, fontsize=16)
-        yvalues = np.arange(0, 40001, 10000)
+        yvalues = np.arange(1, 40001, 10000)
         plt.yticks(yvalues)
-        ax.set_yticklabels(yvalues, fontsize=16)
+        ax.set_yticklabels(yvalues, fontsize=12)
         ax.label_outer()
 
     plt.yscale("log")
@@ -76,7 +76,7 @@ def plot_post_count_by_length_by_type(df):
     fig.tight_layout(pad = 2)
     plt.subplots_adjust(top=0.94)
     plt.show()
-    fig.savefig("images/post_length_hist_by_type.png")
+    fig.savefig("images/post_length_hist_by_type.png", dpi=125)
 
 def replace_names(word_lst, name_set, replacement_val):
     word_lst_with_replacement = [] 

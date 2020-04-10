@@ -1,13 +1,14 @@
 # DSI-Capstone-I
-Capstone I project for Galvanize DSI
 
 ---
 ## Overview
-Myers-Briggs
+The Myers-Briggs Type Indicator (MBTI) is a personality assessment tool
+
+More information about [Myers-Briggs](https://www.myersbriggs.org/my-mbti-personality-type/mbti-basics/home.htm?bhcp=1).
 
 ---
 ## Data Source Description
-I used a Kaggle dataset of web discussion forum posts at an MBTI site. The data is in .csv format and is 2 columns of 8675 rows. There are no null values. The firsts column is MBTI type of a user (one user per row of any of the 16 types) and the second column is a set of 50 posts for each user, as a single string, separated by a triple pipe ‘|||’. Posts are free-form text and can include links to other sites.
+I used a Kaggle dataset of discussion forum posts at an MBTI-centered site. Two columns are present - the self-reported MBTI type of a user (one user per row) and a set of 50 posts for that user, listed as a single string, separated by a triple pipe ‘|||’.
 
 ---
 ## Who is Posting and H
@@ -17,7 +18,7 @@ Log scale - no INxx
 
 Note the whitespace differences in the upper right quandrant vs the lower left quadrant
 
-https://personalityjunkie.com/infj-infp-intj-intp-modern-life/
+Further discussion on the INxx types can be found [here](https://personalityjunkie.com/infj-infp-intj-intp-modern-life/).
 
 ---
 ## 4 x 4 plot

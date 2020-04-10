@@ -57,27 +57,35 @@ def create_word_cloud(word_cloud_string, current_type):
     plt.imshow(wordcloud) 
     plt.axis("off") 
     plt.tight_layout(pad = 0) 
-    plt.show()
+    # plt.show()
     plt.savefig(f"images/word_cloud_{current_type}.png")
 
-
-
-if __name__ == "__main__":
-    df_raw = pd.read_csv('data/mbti_1.csv')
-    current_type = "ESFP"
-    
+def word_cloud_generator(df_raw, current_type):
+    """
+    Main function to convert a raw csv file to a word cloud by way of string and dataframe manipulation,
+    tf-idf processing, and would cloud graphics generation.
+    INPUT are a raw .csv file of the expected format and the Myers-Briggs Type of interest.
+    OUTPUT is a word cloud image.
+    """
     df_user_posts_merged = merge_user_posts_into_string(df_raw, 'posts', delim = "\|\|\|")
     df_type_posts_grouped = group_type_posts(df_user_posts_merged, 'type', 'posts')
-    
+    # Generate lists
     type_list = convert_series_to_list(df_type_posts_grouped, 'type')
     docs = convert_series_to_list(df_type_posts_grouped, 'posts')
-    
     # tf-idf Calculations
     word_count_vector, cv = create_tf_count_vectorizer(docs, stopwords_set, min_word_count=2)
     tfidf_transformer = compute_idf_values(word_count_vector)
     tf_idf_vector = compute_tf_idf_scores(tfidf_transformer, word_count_vector)
     ranked_word_list = create_ranked_word_list(cv, tf_idf_vector, type_list.index(current_type), f"tfidf-{current_type}")
-    
     # Word Cloud image creator
     word_cloud_string = create_word_cloud_string(ranked_word_list, f"tfidf-{current_type}", word_cloud_size = 200, score_scale = 1000)
     create_word_cloud(word_cloud_string, current_type)
+
+
+if __name__ == "__main__":
+      
+    df_raw = pd.read_csv('data/mbti_1.csv')
+    mbti_types = ['ISTJ','ISFJ','INFJ','INTJ', 'ISTP','ISFP','INFP','INTP',
+                  'ESTP','ESFP','ENFP','ENTP', 'ESTJ','ESFJ','ENFJ','ENTJ']
+    for current_type in range(len(mbti_types)):
+        word_cloud_generator(df_raw, mbti_types[current_type])

@@ -8,7 +8,7 @@ custom_stopwords = set("like just people don really ve http com make good things
                         yeah usually got look use day long years year think know feel love friend friends \
                         thinking thought thread post personality mbti try entjs intjs enfps enfjs oh entps \
                         esfjs estjs dont espts im let time infjs infps quite makes little intps isfjs istps \
-                        jpg".split())
+                        jpg guy".split())
 
 
 def remove_first_last_quote(dataframe, col):
