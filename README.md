@@ -27,7 +27,7 @@ both (I) and (N) types.  The set of 4 INxx types made up 66% of the user base.
 
 ![alt text](/images/post_count_by_type_ei.png)
 
-One theory for the heavy skew in INxx participation could be that these types tend to explore information and patterns deeply, so a site where they can discuss their thoughts and understand personality differences
+One theory for the heavy skew in INxx participation could be that these types tend to explore information and patterns deeply, so a site where they can discuss their thoughts and understand personality differences.
 
 Though it seems clear the user frequency distribution is not uniform, a Chi-squared test can confirm this.  With a Null Hypothesis that each of the 16 user types would be uniformly represented in user counts, the Chi-squared p-value of 0.0 allows the Null Hypothesis to be formally rejected.
 
@@ -37,7 +37,7 @@ To explore more why INxx types may be drawn to a site discussing personality typ
 
 ---
 ## Distrubtion of Post Length by Type
-Below are data showing the distribution by each type of the length of posts (in characters).  These data were not normalized by Type frequency, so display the expected difference in count.  Y-axis is in log10 due to order of mangitude differences (driven by user frequency)
+Below are data showing the distribution by each type of the length of posts (in characters).  These data were not normalized by Type frequency, so display the expected difference in count.  Y-axis is in log10 due to order of mangitude differences (driven by user frequency).
 
 Two features stand out with these distributions:
 - There is a spike in count when post length is in the 190-200 character range, at the upper tail end of the distribution.  (Note: there is no indication on the source website of a max length for a post.  ENTJs have posts ~ 250 characters)
@@ -53,7 +53,7 @@ For a set of documents in a corpus, the tf-idf process finds words in a given do
 ### Data Prep and Cleaning
 The 8675 rows of data required pre-processing.  For each user, all 50 posts were concatenated into one string.  Specifically, the posts needed to be:
 - split into a string of words (remove the '|||')
-- grouped by each of the 16 user types and merged into a single string with others of that type.
+- grouped by each of the 16 user types and merged into a single string with others of that type
 
 This created 16 documents; one for each MBTI Type.
 
@@ -99,7 +99,7 @@ This created 16 documents; one for each MBTI Type.
 ## Summary
 - A forum to discuss personality types seems to attract specifc personality types more than others - INxx vs ESxx.
 - For posts less than 180 characters long, approximately 50 characters was most common for all types.
-- SKLearn is a powerful and easily to user tool for document word analysis
+- SKLearn is a powerful and easily to user tool for document word analysis.
 - Some differences can be seen between personality types when viewed as word clouds, but additional text processing would likely yield more clear distinctions.
 
 ---
