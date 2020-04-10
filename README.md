@@ -35,7 +35,7 @@ both (I) and (N) types.  The set of 4 INxx types made up 66% of the user base.
 
 ![alt text](/images/post_count_by_type_ei.png)
 
-One theory for the heavy skew in INxx participation could be that these types tend to explore information and patterns deeply, so a site where they can discuss their thoughts and understand personality differences.
+One theory for the heavy skew in INxx participation could be that these types tend to explore information and patterns deeply, so a site where they can discuss their thoughts and understand personality differences would be very attractive.
 
 Though it seems clear the user frequency distribution is not uniform, a Chi-squared test can confirm this.  With a Null Hypothesis that each of the 16 user types would be uniformly represented in user counts, the Chi-squared p-value of 0.0 allows the Null Hypothesis to be formally rejected.
 
