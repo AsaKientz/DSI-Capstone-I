@@ -107,7 +107,7 @@ This created 16 documents; one for each MBTI Type.
 ## Summary
 - A forum to discuss personality types seems to attract specifc personality types more than others - INxx vs ESxx.
 - For posts less than 180 characters long, approximately 50 characters was most common for all types.
-- SKLearn is a powerful and easily to user tool for document word analysis.
+- SKLearn is a powerful and easy-to-use tool for document word analysis.
 - Some differences can be seen between personality types when viewed as word clouds, but additional text processing would likely yield more clear distinctions.
 
 ---
